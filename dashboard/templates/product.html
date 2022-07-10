@@ -10,29 +10,15 @@
               <!-- Swiper Main Slider -->
               <div class="js-swiper-shop-product swiper">
                 <div class="swiper-wrapper">
+                  {% for image in product.images_raw %}
                   <!-- Slide -->
                   <div class="swiper-slide">
                     <div class="card card-bordered shadow-none">
-                      <img class="card-img" src="{% static 'img/600x600/img1.jpg' %}" alt="Image Description">
+                      <img class="card-img" src="/media/{{ image.image }}" alt="Image Description">
                     </div>
                   </div>
                   <!-- End Slide -->
-
-                  <!-- Slide -->
-                  <div class="swiper-slide">
-                    <div class="card card-bordered shadow-none">
-                      <img class="card-img" src="{% static 'img/600x600/img2.jpg' %}" alt="Image Description">
-                    </div>
-                  </div>
-                  <!-- End Slide -->
-
-                  <!-- Slide -->
-                  <div class="swiper-slide">
-                    <div class="card card-bordered shadow-none">
-                      <img class="card-img" src="{% static 'img/600x600/img3.jpg' %}" alt="Image Description">
-                    </div>
-                  </div>
-                  <!-- End Slide -->
+                  {% endfor %}
                 </div>
 
                 <!-- Arrows -->
@@ -45,29 +31,16 @@
               <div class="position-absolute bottom-0 end-0 start-0 zi-1 p-4">
                 <div class="js-swiper-shop-product-thumb swiper" style="max-width: 15rem;">
                   <div class="swiper-wrapper">
+                  
+                    {% for image in product.images_raw %}
                     <!-- Slide -->
                     <div class="swiper-slide">
                       <a class="avatar avatar-circle" href="javascript:;">
-                        <img class="avatar-img" src="{% static 'img/160x160/img11.jpg' %}" alt="Image Description">
+                        <img class="avatar-img" src="/media/{{ image.image }}" alt="Image Description">
                       </a>
                     </div>
-                    <!-- End Slide -->
-
-                    <!-- Slide -->
-                    <div class="swiper-slide">
-                      <a class="avatar avatar-circle" href="javascript:;">
-                        <img class="avatar-img" src="{% static 'img/160x160/img12.jpg' %}" alt="Image Description">
-                      </a>
-                    </div>
-                    <!-- End Slide -->
-
-                    <!-- Slide -->
-                    <div class="swiper-slide">
-                      <a class="avatar avatar-circle" href="javascript:;">
-                        <img class="avatar-img" src="{% static 'img/160x160/img13.jpg' %}" alt="Image Description">
-                      </a>
-                    </div>
-                    <!-- End Slide -->
+                    <!-- End Slide -->                    
+                    {% endfor %}
                   </div>
                 </div>
               </div>
@@ -85,14 +58,14 @@
             <img src="{% static 'svg/illustrations/star.svg' %}" alt="Review rating" width="16">
             <img src="{% static 'svg/illustrations/star.svg' %}" alt="Review rating" width="16">
             <img src="{% static 'svg/illustrations/star.svg' %}" alt="Review rating" width="16">
-            <span class="ms-1">287 reviews</span>
+            <span class="ms-1">{{ product.reviews }} reviews</span>
           </a>
           <!-- End Rating -->
 
           <!-- Heading -->
           <div class="mb-5">
-            <h1 class="h2">New Era 9Forty LA Dodgers adjustable cap in black</h1>
-            <p>American label New Era manufacturing baseball hats for teams since the 1930s.</p>
+            <h1 class="h2">{{ product.title }}</h1>
+            <p>{{ product.sub_title }}</p>
           </div>
           <!-- End Heading -->
 
@@ -100,8 +73,8 @@
           <div class="mb-5">
             <span class="d-block mb-2">Total price:</span>
             <div class="d-flex align-items-center">
-              <h3 class="mb-0">$159.99</h3>
-              <span class="ms-2"><del>$179.99</del></span>
+              <h3 class="mb-0">${{ product.price }}</h3>
+              <span class="ms-2"><del>${{ product.price_discount }}</del></span>
             </div>
           </div>
           <!-- End Price -->
@@ -225,7 +198,7 @@
         <div class="col-md-6 mb-5 mb-md-0">
           <div class="pe-lg-4">
             <h3>Details</h3>
-            <p>As popular off field as they are on, New Era caps are standard issue amongst those with a passion for street culture, blending progressive styles with carefully crafted design. Known for their innovative use of colour, bold designs are added season upon season, referencing everything.</p>
+            <p>{{ product.details }}</p>
           </div>
         </div>
         <!-- End Col -->
@@ -236,20 +209,18 @@
           <div class="row">
             <div class="col-sm-6">
               <ul class="list-py-2 mb-0">
-                <li>Main: 100% Cotton</li>
-                <li>Soft twill</li>
-                <li>Ribbed, diagonal pattern</li>
-                <li>Slightly structured</li>
+                {% for material in product.material1 %}
+                <li>{{ material }}</li>
+                {% endfor %}
               </ul>
             </div>
             <!-- End Col -->
 
             <div class="col-sm-6">
               <ul class="list-py-2 mb-0">
-                <li>One size fits all</li>
-                <li>Imported</li>
-                <li>Product color: Dark greenish</li>
-                <li>Product code: #1465791</li>
+                {% for material in product.material2 %}
+                <li>{{ material }}</li>
+                {% endfor %}
               </ul>
             </div>
             <!-- End Col -->
@@ -264,19 +235,33 @@
 
     <!-- Content -->
     <div class="container">
-      <div class="row justify-content-lg-between align-items-md-center">
-        <div class="col-md-6 col-lg-5 content-space-1 content-space-md-2">
-          <h2 class="mb-4">A casual cap with Front originals style</h2>
-          <p>This men's hat has low-key Trefoil style with an embroidered logo on the front.</p>
-          <p>Made of washed canvas, the hat has a crushable, packable design and an adjustable back strap so you can personalize the fit.</p>
-        </div>
+      {% for blog in product.blogs_raw %}
+        {% if blog.is_right is True %}
+        <div class="row justify-content-lg-between align-items-md-center">
+          <div class="col-md-6 col-lg-5 content-space-1 content-space-md-2 order-md-2">
+            <h2 class="mb-4">{{ blog.title }}</h2>
+            <p>{{ blog.sub_title }}</p>
+          </div>
 
-        <div class="col-md-6">
-          <div class="bg-img-center h-100 rounded-2" style="background-image: url({% static 'img/750x750/img3.jpg' %}); min-height: 30rem;"></div>
+          <div class="col-md-6 order-md-1">
+            <div class="bg-img-center h-100 rounded-2" style="background-image: url(/media/{{ blog.image }}); min-height: 30rem;"></div>
+          </div>
         </div>
-      </div>
+        {% else %}
+        <div class="row justify-content-lg-between align-items-md-center">
+          <div class="col-md-6 col-lg-5 content-space-1 content-space-md-2">
+            <h2 class="mb-4">{{ blog.title }}</h2>
+            <p>{{ blog.sub_title }}</p>
+          </div>
 
-      <div class="row justify-content-lg-between align-items-md-center content-space-t-1 content-space-t-lg-3">
+          <div class="col-md-6">
+            <div class="bg-img-center h-100 rounded-2" style="background-image: url(/media/{{ blog.image }}); min-height: 30rem;"></div>
+          </div>
+        </div>
+        {% endif %}
+      {% endfor %}
+
+      {% comment %} <div class="row justify-content-lg-between align-items-md-center content-space-t-1 content-space-t-lg-3">
         <div class="col-md-6 col-lg-5 order-md-2 content-space-1 content-space-md-2">
           <h2 class="mb-4">A casual cap with Front originals style</h2>
           <p>This men's hat has low-key Trefoil style with an embroidered logo on the front.</p>
@@ -286,12 +271,12 @@
         <div class="col-md-6 order-md-1">
           <div class="bg-img-center h-100 rounded-2" style="background-image: url({% static 'img/750x750/img4.jpg' %}); min-height: 30rem;"></div>
         </div>
-      </div>
+      </div> {% endcomment %}
     </div>
     <!-- End Content -->
 
     <!-- Card Grid -->
-    <div class="container content-space-2 content-space-lg-3">
+    {% comment %} <div class="container content-space-2 content-space-lg-3">
       <!-- Title -->
       <div class="w-md-75 w-lg-50 text-center mx-md-auto mb-5 mb-md-9">
         <h2>Just for you</h2>
@@ -476,11 +461,11 @@
         <!-- End Col -->
       </div>
       <!-- End Row -->
-    </div>
+    </div> {% endcomment %}
     <!-- End Card Grid -->
 
     <!-- Review Section -->
-    <div id="reviewSection" class="container content-space-b-2 content-space-b-lg-3">
+    {% comment %} <div id="reviewSection" class="container content-space-b-2 content-space-b-lg-3">
       <div class="row">
         <div class="col-md-4 mb-7 mb-md-0">
           <div class="border-bottom pb-4 mb-4">
@@ -817,7 +802,7 @@
         <!-- End Col -->
       </div>
       <!-- End Row -->
-    </div>
+    </div> {% endcomment %}
     <!-- End Review Section -->
 
     <!-- Subscribe -->
@@ -860,7 +845,7 @@
   // =======================================================
   var swiper = new Swiper('.js-swiper-shop-product',{
     effect: 'fade',
-    autoplay: true,
+    // autoplay: true,
     loop: true,
     navigation: {
       nextEl: '.js-swiper-shop-product-button-next',
